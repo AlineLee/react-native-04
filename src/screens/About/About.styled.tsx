@@ -9,7 +9,7 @@ export const Container = styled.View`
 export const Header = styled.Text`
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
   text-align: center;
   margin-bottom: 40px;
   color: ${({color}) => color};

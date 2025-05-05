@@ -23,20 +23,16 @@ const Excersises = ({currentMode}: {currentMode: 'dark' | 'light'}) => {
           '- Profile the app using React Dev Tools\n- Apply lazy loading for tabs to the Bottom Tab Navigator\n- Profile the app again using React Dev Tools and compare it previous implementation'
         }
       </Paragraph>
-
-      <Divider />
-
-      <Paragraph fontWeight="500" color={colors[currentMode].text}>
-        Exercise 2: Profile app using native solutions
-      </Paragraph>
       <Paragraph color={colors[currentMode].text}>
-        {'- Profile the app using xCode instrumenst and Android Studio profiler\n- Save results and do same measurements at the end of the workshop '}
+        {
+          '- Additionally you can also profile the app using xCode instrumenst and/or Android Studio profiler\n'
+        }
       </Paragraph>
 
       <Divider />
 
       <Paragraph fontWeight="500" color={colors[currentMode].text}>
-        Exercise 3: Improve list performance
+        Exercise 2: Improve list performance
       </Paragraph>
       <Paragraph color={colors[currentMode].text}>
         {
@@ -47,7 +43,7 @@ const Excersises = ({currentMode}: {currentMode: 'dark' | 'light'}) => {
       <Divider />
 
       <Paragraph fontWeight="500" color={colors[currentMode].text}>
-        Exercise 4: Optimize Exhibitions countdown
+        Exercise 3: Optimize Exhibitions countdown
       </Paragraph>
       <Paragraph color={colors[currentMode].text}>
         {
@@ -58,7 +54,7 @@ const Excersises = ({currentMode}: {currentMode: 'dark' | 'light'}) => {
       <Divider />
 
       <Paragraph fontWeight="500" color={colors[currentMode].text}>
-        Exercise 5: Memoization
+        Exercise 4: Memoization
       </Paragraph>
       <Paragraph color={colors[currentMode].text}>
         {
