@@ -9,7 +9,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
-import {useInfiniteQuery} from '@tanstack/react-query'
+import {useInfiniteQuery} from '@tanstack/react-query';
 import {ExhibitionsShimmer} from '~components/shimmers';
 import {artService} from '~services/artService';
 import {colors} from '~utils/colors';
@@ -28,7 +28,7 @@ import {
 
 type Props = {};
 
-const newExhibitionDate = new Date(2023, 12, 25, 15, 35);
+const newExhibitionDate = new Date(2025, 6, 25, 15, 35);
 
 export const Exhibitions = ({}: Props) => {
   const [timerLabel, setTimerLabel] = React.useState<string | null>(null);
