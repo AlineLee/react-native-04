@@ -16,7 +16,6 @@ To start Metro, run the following command from the _root_ of your React Native p
 
 ```bash
 
-# OR using Yarn
 yarn start
 ```
 
@@ -27,8 +26,6 @@ Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _roo
 ### For Android
 
 ```bash
-
-# OR using Yarn
 yarn android
 ```
 
@@ -36,6 +33,5 @@ yarn android
 
 ```bash
 
-# OR using Yarn
 yarn ios
 ```
