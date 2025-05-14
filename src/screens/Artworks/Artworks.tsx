@@ -1,23 +1,11 @@
 import * as React from 'react';
-import {
-  useColorScheme,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-} from 'react-native';
+import {useColorScheme, SafeAreaView, StatusBar} from 'react-native';
 import {useQuery} from '@tanstack/react-query';
 import {ArtworksShimmer} from '~components';
 import {artService} from '~services/artService';
 import {colors} from '~utils/colors';
-import {
-  Container,
-  Header,
-  Item,
-  ItemDescription,
-  ItemImagePlaceholder,
-  ItemTitle,
-  SubHeader,
-} from './Artworks.styled';
+import {Container, Header, SubHeader} from './Artworks.styled';
+import ArtworksFlatList from '~components/ArtworksFlatList';
 
 export const Artworks = () => {
   const currentMode: 'light' | 'dark' = useColorScheme() || 'dark';
@@ -46,24 +34,7 @@ export const Artworks = () => {
         {!data ? (
           <ArtworksShimmer colorMode={currentMode} />
         ) : (
-          <ScrollView>
-            {data?.data?.map((item: any) => (
-              <Item key={item.id}>
-                <ItemTitle color={colors[currentMode].text}>
-                  {item?.title}
-                </ItemTitle>
-                <ItemDescription color={colors[currentMode].text}>
-                  {item?.thumbnail?.alt_text}
-                </ItemDescription>
-                <ItemImagePlaceholder
-                  isDark={isDarkMode}
-                  source={{
-                    uri: `https://www.artic.edu/iiif/2/${item?.image_id}/full/1680,/0/default.jpg`,
-                  }}
-                />
-              </Item>
-            ))}
-          </ScrollView>
+          <ArtworksFlatList data={data?.data} />
         )}
       </Container>
     </SafeAreaView>
