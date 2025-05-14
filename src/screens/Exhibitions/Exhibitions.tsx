@@ -3,9 +3,6 @@ import {
   useColorScheme,
   SafeAreaView,
   StatusBar,
-  TouchableOpacity,
-  Linking,
-  ScrollView,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native';
@@ -16,41 +13,21 @@ import {colors} from '~utils/colors';
 import {
   Container,
   Header,
-  Item,
-  ItemDescription,
-  ItemImagePlaceholder,
-  ItemLinkButton,
-  ItemTitle,
   LoadingCaption,
   SubHeader,
-  TimerCaption,
 } from './Exhibitions.styled';
+import WithFlatList from '~components/WithFlatList';
+import Timer from '~components/Timer';
+import {useMemo, useState} from 'react';
 
-type Props = {};
-
-const newExhibitionDate = new Date(2025, 6, 25, 15, 35);
-
-export const Exhibitions = ({}: Props) => {
-  const [timerLabel, setTimerLabel] = React.useState<string | null>(null);
-
-  const timer = React.useRef<number | undefined>(undefined);
+export const Exhibitions = () => {
   const currentMode: 'light' | 'dark' = useColorScheme() || 'dark';
   const isDarkMode = currentMode === 'dark';
+  const [list, setList] = useState([]);
 
   const backgroundStyle = {
     backgroundColor: colors[currentMode].background,
   };
-
-  React.useEffect(() => {
-    timer.current = setInterval(
-      () => setTimerLabel(formatTimeLeft(newExhibitionDate)),
-      5000,
-    );
-
-    return () => {
-      timer.current && clearInterval(timer.current);
-    };
-  }, []);
 
   const {data, fetchNextPage, isFetchingNextPage} = useInfiniteQuery<any>(
     ['artworks', 'collections/exhibitions'],
@@ -73,17 +50,17 @@ export const Exhibitions = ({}: Props) => {
     }
   };
 
-  const getExhibitionsArray = () => {
+  useMemo(() => {
     if (!data?.pages.length) {
-      return null;
+      setList([]);
+      return;
     }
     const result = data.pages.reduce(
       (acc, curr) => [...acc, ...curr.data.map((el: unknown) => el)],
       [],
     );
-
-    return result;
-  };
+    setList(result);
+  }, [data]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -96,34 +73,14 @@ export const Exhibitions = ({}: Props) => {
         <SubHeader color={colors[currentMode].text}>
           Available Exhibitions
         </SubHeader>
-        {!!timerLabel && (
-          <TimerCaption>{`Time until our next exhibition: \n${timerLabel}`}</TimerCaption>
-        )}
-        {getExhibitionsArray() === null ? (
+        <Timer />
+        {list.length <=0 ? (
           <ExhibitionsShimmer colorMode={currentMode} />
         ) : (
-          <ScrollView onMomentumScrollEnd={handleOnScrollEnd}>
-            {getExhibitionsArray()?.map((item: any) => (
-              <Item key={item.id}>
-                <ItemTitle color={colors[currentMode].text}>
-                  {item?.title}
-                </ItemTitle>
-                <ItemDescription color={colors[currentMode].text}>
-                  {item?.short_description}
-                </ItemDescription>
-                <ItemImagePlaceholder
-                  isDark={isDarkMode}
-                  source={{uri: item?.image_url}}
-                />
-                {item.web_url ? (
-                  <TouchableOpacity
-                    onPress={() => Linking.openURL(item.web_url)}>
-                    <ItemLinkButton>See more</ItemLinkButton>
-                  </TouchableOpacity>
-                ) : null}
-              </Item>
-            ))}
-          </ScrollView>
+          <WithFlatList
+            data={list}
+            onMomentumScrollEnd={handleOnScrollEnd}
+          />
         )}
         {isFetchingNextPage ? (
           <LoadingCaption>Loading More Exhibitions...</LoadingCaption>
@@ -131,17 +88,4 @@ export const Exhibitions = ({}: Props) => {
       </Container>
     </SafeAreaView>
   );
-};
-
-const formatTimeLeft = (date: Date) => {
-  const now = new Date();
-  const dateDiff = date.getTime() - now.getTime();
-  const days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-  );
-  const minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((dateDiff % (1000 * 60)) / 1000);
-
-  return `${days}d ${hours}h ${minutes}min ${seconds}sec`;
 };

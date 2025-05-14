@@ -5,7 +5,7 @@ import {
   StatusBar,
   ScrollView,
 } from 'react-native';
-import {useQuery} from '@tanstack/react-query'
+import {useQuery} from '@tanstack/react-query';
 import {ArtworksShimmer} from '~components';
 import {artService} from '~services/artService';
 import {colors} from '~utils/colors';
